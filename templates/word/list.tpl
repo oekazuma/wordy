@@ -45,6 +45,7 @@
                 <a href="/wordy/logout.php">LOGOUT</a>
               </li>
             </ul>
+
         </div>
         <!-- /.navbar-collapse -->
     </div>
@@ -68,7 +69,7 @@
     </form>
   </div>
 
-    <table class="table table-striped table-bordered" >
+    <table class="table table-striped table-bordered">
       <thead>
       <tr>
         <th>投稿日時</th>

@@ -71,31 +71,49 @@
         <p>{$vote->getVote()}に投票済みです！</p>
       </div>
     {/if}
-
-      <p>
-          {$wordList->getRead1()}：
-          <span id="num">{$wordList->getReadPoints1()}</span>
+    <div class="row">
+  <div class="col-sm-7">
+    <p id="graf"><img src="/wordy/img/graf.png"></p>
+  </div>
+  <BR>
+  <BR>
+  <div class="col-sm-3">
+    <p>
+          <span id="read1">{$wordList->getRead1()}</span>：
+          <span id="num1">{$wordList->getReadPoints1()}</span>&nbsp;&nbsp;
           <button id="1" name="{$wordList->getRead1()}" class="btn btn-primary">投票する</button>
       </p>
+      <BR>
       <p>
-          {$wordList->getRead2()}：
-          <span id="num">{$wordList->getReadPoints2()}</span>
+          <span id="read2">{$wordList->getRead2()}</span>：
+          <span id="num2">{$wordList->getReadPoints2()}</span>&nbsp;&nbsp;
           <button id="2" name="{$wordList->getRead2()}" class="btn btn-primary">投票する</button>
       </p>
+      <BR>
       {if !empty ({$wordList->getRead3()}) }
       <p>
-          {$wordList->getRead3()}:
-          <span id="num">{$wordList->getReadPoints3()}</span>
+          <span id="read3">{$wordList->getRead3()}</span>:
+          <span id="num3">{$wordList->getReadPoints3()}</span>&nbsp;&nbsp;
           <button id="3" name="{$wordList->getRead3()}" class="btn btn-primary">投票する</button>
       </p>
+      <BR>
       {/if}
       {if !empty ({$wordList->getRead4()}) }
       <p>
-          {$wordList->getRead4()}:
-          <span id="num">{$wordList->getReadPoints4()}</span>
+          <span id="read4">{$wordList->getRead4()}</span>:
+          <span id="num4">{$wordList->getReadPoints4()}</span>&nbsp;&nbsp;
           <button id="4" name="{$wordList->getRead4()}" class="btn btn-primary">投票する</button>
       </p>
       {/if}
+      {if $wordList->getReadPoints1() == 0 && $wordList->getReadPoints2() == 0}
+      {else}
+      <p><button class="btn">グラフを表示する</button></p>
+      {/if}
+  </div>
+</div>
+    
+
+      
       <a href="http://twitter.com/share?url=http://localhost:4567/wordy/word/showDetail.php?wordId={$wordId}%26word={$word}&text=あなたはどの読み方？投票して決めよう！&hashtags=Wordy" target="_blank"><img src="../img/twitter.png" width="40" height="30"></a>
     </div>
 
@@ -164,8 +182,6 @@
           <a href="/wordy/word/showDetail.php?wordId={$wordId}&word={$word}&page={$totalPage}">最後へ&gt;&gt;</a>
 {/if}
 
-
-
 <!-- jQuery -->
 <script src="../js/jquery.js"></script>
 
@@ -178,5 +194,67 @@
 <script src="../js/jquery.easing.min.js"></script>
 <script src="../js/jquery.fittext.js"></script>
 <script src="../js/wow.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+<script type="text/javascript">
+  function loadContents(){
+  $.ajax({
+    type: "GET",
+    url: "/wordy/word/showDetail.php?wordId={$wordId}&word={$word}",
+    success: function(data) {
+      var read1 = $('#read1').text();
+      var read2 = $('#read2').text();
+      var read3 = $('#read3').text();
+      var read4 = $('#read4').text();
+
+      var num1 = $('#num1').text();
+      var num2 = $('#num2').text();
+      var num3 = $('#num3').text();
+      var num4 = $('#num4').text();
+
+      $("button").click(function() {
+        $("#graf").html("<canvas id='mycanvas' height='400' width='400'></canvas>");
+      });
+
+
+      var data = [
+       {
+        value: num1,
+        color:"#F7464A",
+        highlight: "#FF5A5E",
+        label: read1
+       },
+       {
+        value: num2,
+        color: "#46BFBD",
+        highlight: "#5AD3D1",
+        label: read2
+       },
+       {
+        value: num3,
+        color: "#FDB45C",
+        highlight: "#FFC870",
+        label: read3
+       },
+      {
+        value: num4,
+        color: "#FDB45C",
+        highlight: "#FFC870",
+        label: read4
+       }
+      ];
+
+      var option = {
+        animation: false
+      };
+
+      var myChart = new Chart(document.getElementById("mycanvas").getContext("2d")).Pie(data,option);
+    }
+  });
+}
+$(function() {
+  loadContents(); 
+  setInterval("loadContents()", 1000);
+});
+</script>
 </body>
 </html>

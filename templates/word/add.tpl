@@ -80,7 +80,7 @@
                 </div>
                 <div class="form-group">
                   <label for="inputRead">読み方その2&nbsp;<font color="red">必須</font></label>
-                  <input class="form-control" type="text" id="read_2" name="read_2" placeholder="カタカナで入力" autocomplete="off" value="{$word->getRead1()|default:''}">
+                  <input class="form-control" type="text" id="read_2" name="read_2" placeholder="カタカナで入力" autocomplete="off" value="{$word->getRead2()|default:''}">
                 </div>
                 <div class="form-group">
                   <label for="inputRead">読み方その3</label>

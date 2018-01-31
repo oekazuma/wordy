@@ -37,7 +37,7 @@
     <!-- /.container-fluid -->
 </nav>
 
-<section class="bg-default" id="about">
+<section class="bg-default">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 text-center">
