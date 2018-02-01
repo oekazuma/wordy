@@ -44,13 +44,45 @@ class FavoriteDAO
         return $sters;
     }
 
+    public function findFav($userId)
+    {
+        $sql = 'SELECT * FROM favorite WHERE userId = :userId';
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);
+
+        $result = $stmt->execute();
+
+        $sters = null;
+
+        $favList = [];
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $id = $row['id'];
+            $word = $row['word'];
+            $userId = $row['userId'];
+            $wordId = $row['wordId'];
+
+            $sters = new Favorite();
+            $sters->setId($id);
+            $sters->setWord($word);
+            $sters->setUserId($userId);
+            $sters->setWordId($wordId);
+
+            $favList[] = $sters;
+        }
+
+        return $favList;
+    }
+
     public function insert($ster)
     {
-        $sql = 'INSERT INTO favorite (word, userId) VALUES (:word, :userId)';
+        $sql = 'INSERT INTO favorite (word, userId, wordId) VALUES (:word, :userId, :wordId)';
         $stmt = $this->db->prepare($sql);
 
         $stmt->bindValue(':word', $ster->getWord(), PDO::PARAM_STR);
         $stmt->bindValue(':userId', $ster->getUserId(), PDO::PARAM_INT);
+        $stmt->bindValue(':wordId', $ster->getWordId(), PDO::PARAM_INT);
 
         $result = $stmt->execute();
 

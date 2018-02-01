@@ -11,6 +11,8 @@ class Favorite
     private $word = '';
     //ユーザID
     private $userId;
+    //ワードID
+    private $wordId;
 
     /**
      * @return mixed
@@ -58,6 +60,22 @@ class Favorite
     public function setUserId($userId)
     {
         $this->userId = $userId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWordId()
+    {
+        return $this->wordId;
+    }
+
+    /**
+     * @param mixed $wordId
+     */
+    public function setWordId($wordId)
+    {
+        $this->wordId = $wordId;
     }
 
 }

@@ -191,24 +191,16 @@ class WordDAO
         return $id;
     }
 
-    /**
-     * update.
-     *
-     * @param Reports $reports
-     *
-     * @return bool
-     */
-    public function update(Reports $reports)
+    public function update($words)
     {
-        $sql = 'UPDATE reports SET rp_date = :rp_date, rp_time_from = :rp_time_from, rp_time_to = :rp_time_to, reportcate_id = :reportcate_id, rp_content = :rp_content WHERE id = :id';
+        $sql = 'UPDATE words SET read1 = :read1, read2 = :read2, read3 = :read3, read4 = :read4, created_at = :created_at WHERE id = :id';
         $stmt = $this->db->prepare($sql);
 
-        $stmt->bindValue(':rp_date', $reports->getRpDate(), PDO::PARAM_STR);
-        $stmt->bindValue(':rp_time_from', $reports->getRpTimeFrom(), PDO::PARAM_STR);
-        $stmt->bindValue(':rp_time_to', $reports->getRpTimeTo(), PDO::PARAM_STR);
-        $stmt->bindValue(':reportcate_id', $reports->getRcId(), PDO::PARAM_INT);
-        $stmt->bindValue(':rp_content', $reports->getRpContent(), PDO::PARAM_STR);
-        $stmt->bindValue(':id', $reports->getId(), PDO::PARAM_INT);
+        $stmt->bindValue(':read1', $words->getRead1(), PDO::PARAM_STR);
+        $stmt->bindValue(':read2', $words->getRead2(), PDO::PARAM_STR);
+        $stmt->bindValue(':read3', $words->getRead3(), PDO::PARAM_STR);
+        $stmt->bindValue(':read4', $words->getRead4(), PDO::PARAM_STR);
+        $stmt->bindValue(':created_at', $words->getCreatedAt(), PDO::PARAM_STR);
 
         $result = $stmt->execute();
 
@@ -217,7 +209,7 @@ class WordDAO
 
     public function delete($id)
     {
-        $sql = 'DELETE FROM reports WHERE id = :id';
+        $sql = 'DELETE FROM words WHERE id = :id';
         $stmt = $this->db->prepare($sql);
 
         $stmt->bindValue(":id", $id, PDO::PARAM_INT);

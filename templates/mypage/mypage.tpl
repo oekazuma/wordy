@@ -51,14 +51,37 @@
     </div>
     <!-- /.container-fluid -->
   </nav>
-
-	<section>
-		<ul>
-			<li><a href="/wordy/mypage/edit.php">会員情報編集</a></li>
-			<li><a href="/wordy/mypage/wordEdit.php">投稿単語編集</a></li>
-			<li><a href="/wordy/mypage/favorite.php">お気に入り一覧</a></li>
-		</ul>
-	</section>
+  <section class="bg-default">
+    <div class="container">
+      <h1>お気に入り一覧</h1>
+    	<table class="table table-striped table-bordered">
+          <thead>
+          <tr>
+            <th class="text-center">単語名</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          {foreach $favList as $favorite}
+            <tr>
+              <td class="text-center">{$favorite->getWord()}</td>
+              <td>
+                <form action="/wordy/word/showDetail.php" method="get">
+                  <input type="hidden" id="wordId" name="wordId" value="{$favorite->getWordId()}">
+                  <input type="hidden" id="word" name="word" value="{$favorite->getWord()}">
+                  <input type="submit" value="投票" class="btn btn-primary btn-block">
+                </form>
+              </td>
+            </tr>
+            {foreachelse}
+            <tr>
+              <td colspan="5">お気に入りは登録されていません。</td>
+            </tr>
+          {/foreach}
+          </tbody>
+        </table>
+   </div>
+  </section>
 
 	</body>
 </html>

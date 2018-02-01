@@ -11,6 +11,7 @@ $id = $_GET['id'];
 $sters = new Favorite();
 $sters->setWord($word);
 $sters->setUserId($user);
+$sters->setWordId($id);
 
 if ($ster == 'on') {
     try {

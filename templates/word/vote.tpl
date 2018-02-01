@@ -237,8 +237,8 @@
        },
       {
         value: num4,
-        color: "#FDB45C",
-        highlight: "#FFC870",
+        color: "#00FF66",
+        highlight: "#00FF99",
         label: read4
        }
       ];
