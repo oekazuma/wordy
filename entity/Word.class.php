@@ -17,6 +17,8 @@ class Word
     private $read3 = '';
     //読み方その4
     private $read4 = '';
+    //ジャンル
+    private $genre = '';
     //投票数その1
     private $read1_points;
     //投票数その2
@@ -126,6 +128,22 @@ class Word
     public function setRead4($read4)
     {
         $this->read4 = $read4;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGenre()
+    {
+        return $this->genre;
+    }
+
+    /**
+     * @param string $genre
+     */
+    public function setGenre($genre)
+    {
+        $this->genre = $genre;
     }
 
     /**

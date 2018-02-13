@@ -73,6 +73,20 @@
     </div>
 </header>
 
+<section class="bg-default" id="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <h2 class="section-heading">Wordyを始めよう！</h2>
+                <hr class="primary">
+                <hr class="light">
+                <p class="text-muted">Wordyは会員登録することで投票、投稿が可能です。</p>
+                <a href="/wordy/word/showList.php" class="btn btn-primary btn-xl wow tada">Wordy Watched!</a>
+            </div>
+        </div>
+    </div>
+</section>
+
 <section class="bg-primary" id="about">
     <div class="container">
         <div class="row">

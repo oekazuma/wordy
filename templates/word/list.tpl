@@ -33,8 +33,12 @@
             <a class="navbar-brand page-scroll" href="/wordy/">Wordy</a>
         </div>
 
+        {if isset ($loginId)}
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
+              <li>
+                <a href="/wordy/word/showList.php">LIST</a>
+              </li>
               <li>
                 <a href="/wordy/word/goAdd.php">POST</a>
               </li>
@@ -45,6 +49,18 @@
                 <a href="/wordy/logout.php">LOGOUT</a>
               </li>
             </ul>
+        {else}
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+              <li>
+                <a href="/wordy/login.php">Login</a>
+              </li>
+              <li>
+                <a href="/wordy/word/showList.php">LIST</a>
+              </li>
+            </ul>
+        </div>
+        {/if}
 
         </div>
         <!-- /.navbar-collapse -->
@@ -67,28 +83,40 @@
     <form action="/wordy/word/showList.php" method="get">
       知りたい英単語を <input class='form-search' type="text" name="keyword" value="{$keyword|default:''}">で<input type="submit" value="検索" class="btn">
     </form>
+    <BR>
+    {foreach $genreList as $genres}
+      <a href="/wordy/word/showList.php?genre={$genres->getGenre()}" class="btn btn-primary">{$genres->getGenre()}</a>
+    {/foreach}
   </div>
 
     <table class="table table-striped table-bordered">
       <thead>
       <tr>
-        <th>投稿日時</th>
         <th>単語名</th>
-        <th>投稿者</th>
+        <th>票数</th>
+        <th>ジャンル</th>
         <th></th>
       </tr>
       </thead>
       <tbody>
       {foreach $wordList as $words}
         <tr>
-          <td>{$words->getCreatedAt()|date_format:"%Y年%m月%d日"}</td>
           <td>{$words->getWord()}</td>
-          <td>{$words->getUserName()}</td>
+          <td>{$words->getRead1()}：{$words->getReadPoints1()}&nbsp;&nbsp;
+              {$words->getRead2()}：{$words->getReadPoints2()}&nbsp;&nbsp;
+            {if !empty ({$words->getRead3()}) }
+              {$words->getRead3()}：{$words->getReadPoints3()}&nbsp;&nbsp;
+            {/if}
+            {if !empty ({$words->getRead4()}) }
+              {$words->getRead4()}：{$words->getReadPoints4()}
+            {/if}
+          </td>
+          <td>{$words->getGenre()}</td>
           <td>
             <form action="/wordy/word/showDetail.php" method="get">
               <input type="hidden" id="wordId" name="wordId" value="{$words->getId()}">
               <input type="hidden" id="word" name="word" value="{$words->getWord()}">
-              <input type="submit" value="投票" class="btn btn-primary">
+              <input type="submit" value="詳細" class="btn btn-primary btn-block">
             </form>
           </td>
         </tr>

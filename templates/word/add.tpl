@@ -38,6 +38,9 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
               <li>
+                <a href="/wordy/word/showList.php">LIST</a>
+              </li>
+              <li>
                 <a href="/wordy/word/goAdd.php">POST</a>
               </li>
               <li>
@@ -89,6 +92,16 @@
                 <div class="form-group">
                   <label for="inputRead">読み方その4</label>
                   <input class="form-control" type="text" id="read_4" name="read_4" placeholder="カタカナで入力" autocomplete="off" value="{$word->getRead4()|default:''}">
+                </div>
+                <div class="form-group">
+                  <label for="inputGenre">ジャンル&nbsp;<font color="red">必須</font></label>
+                  <select id="genre" name="genre">
+                    {foreach from=$genreList item="genre" name="genreListLoop"}
+                      {if !is_null($genre->getId())}
+                        <option value="{$genre->getGenre()}">{$genre->getGenre()}</option>
+                      {/if}
+                    {/foreach}
+                  </select>
                 </div>
               <input type="submit" value="登録" class="btn btn-primary">
             </div>

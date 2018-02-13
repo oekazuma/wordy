@@ -37,6 +37,9 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
               <li>
+                <a href="/wordy/word/showList.php">LIST</a>
+              </li>
+              <li>
                 <a href="/wordy/word/goAdd.php">POST</a>
               </li>
               <li>
@@ -52,6 +55,7 @@
     <!-- /.container-fluid -->
   </nav>
   <section class="bg-default">
+    <p class="text-right">{$loginName}さんログイン中</p>
     <div class="container">
       <h1>お気に入り一覧</h1>
     	<table class="table table-striped table-bordered">

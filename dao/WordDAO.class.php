@@ -41,6 +41,7 @@ class WordDAO
             $read2 = $row['read2'];
             $read3 = $row['read3'];
             $read4 = $row['read4'];
+            $genre = $row['genre'];
             $read1_points = $row['read1_points'];
             $read2_points = $row['read2_points'];
             $read3_points = $row['read3_points'];
@@ -55,6 +56,7 @@ class WordDAO
             $words->setRead2($read2);
             $words->setRead3($read3);
             $words->setRead4($read4);
+            $words->setGenre($genre);
             $words->setReadPoints1($read1_points);
             $words->setReadPoints2($read2_points);
             $words->setReadPoints3($read3_points);
@@ -84,6 +86,7 @@ class WordDAO
             $read2 = $row['read2'];
             $read3 = $row['read3'];
             $read4 = $row['read4'];
+            $genre = $row['genre'];
             $read1_points = $row['read1_points'];
             $read2_points = $row['read2_points'];
             $read3_points = $row['read3_points'];
@@ -98,6 +101,7 @@ class WordDAO
             $words->setRead2($read2);
             $words->setRead3($read3);
             $words->setRead4($read4);
+            $words->setGenre($genre);
             $words->setReadPoints1($read1_points);
             $words->setReadPoints2($read2_points);
             $words->setReadPoints3($read3_points);
@@ -129,6 +133,7 @@ class WordDAO
             $read2 = $row['read2'];
             $read3 = $row['read3'];
             $read4 = $row['read4'];
+            $genre = $row['genre'];
             $read1_points = $row['read1_points'];
             $read2_points = $row['read2_points'];
             $read3_points = $row['read3_points'];
@@ -136,13 +141,14 @@ class WordDAO
             $createdAt = $row['created_at'];
             $userid = $row['userid'];
 
-            $words = new Words();
+            $words = new Word();
             $words->setId($id);
             $words->setWord($word);
             $words->setRead1($read1);
             $words->setRead2($read2);
             $words->setRead3($read3);
             $words->setRead4($read4);
+            $words->setGenre($genre);
             $words->setReadPoints1($read1_points);
             $words->setReadPoints2($read2_points);
             $words->setReadPoints3($read3_points);
@@ -165,7 +171,7 @@ class WordDAO
      */
     public function insert($words)
     {
-        $sqlInsert = 'INSERT INTO words (word, read1, read2, read3, read4, read1_points, read2_points, read3_points, read4_points, created_at, userid) VALUES (:word, :read1, :read2, :read3, :read4, :read1_points, :read2_points, :read3_points, :read4_points, :created_at, :userid)';
+        $sqlInsert = 'INSERT INTO words (word, read1, read2, read3, read4, genre, read1_points, read2_points, read3_points, read4_points, created_at, userid) VALUES (:word, :read1, :read2, :read3, :read4, :genre, :read1_points, :read2_points, :read3_points, :read4_points, :created_at, :userid)';
         $stmt = $this->db->prepare($sqlInsert);
 
         $stmt->bindValue(':word', $words->getWord(), PDO::PARAM_STR);
@@ -173,6 +179,7 @@ class WordDAO
         $stmt->bindValue(':read2', $words->getRead2(), PDO::PARAM_STR);
         $stmt->bindValue(':read3', $words->getRead3(), PDO::PARAM_STR);
         $stmt->bindValue(':read4', $words->getRead4(), PDO::PARAM_STR);
+        $stmt->bindValue(':genre', $words->getGenre(), PDO::PARAM_STR);
         $stmt->bindValue(':read1_points', $words->getReadPoints1(), PDO::PARAM_INT);
         $stmt->bindValue(':read2_points', $words->getReadPoints2(), PDO::PARAM_INT);
         $stmt->bindValue(':read3_points', $words->getReadPoints3(), PDO::PARAM_INT);
@@ -249,9 +256,24 @@ class WordDAO
         return $rowCount;
     }
 
-    public function wordsRow($limit,$offset) {
-        $sql = 'SELECT words.id, word, created_at, name FROM ( words INNER JOIN users) WHERE words.userid = users.id ORDER BY created_at DESC LIMIT :limit OFFSET :offset';
+    public function countGenre($genre) {
+        $sql = 'SELECT COUNT(*) AS count FROM words WHERE genre = :genre';
 
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->bindValue(':genre', $genre, PDO::PARAM_STR);
+
+        $result = $stmt->execute();
+
+        if($result && $row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $rowCount = $row["count"];
+        }
+
+        return $rowCount;
+    }
+
+    public function wordsRow($limit,$offset) {
+        $sql = 'SELECT words.id, word, created_at, name, read1, read2, read3, read4, genre, read1_points, read2_points, read3_points, read4_points FROM ( words INNER JOIN users) WHERE words.userid = users.id ORDER BY word ASC LIMIT :limit OFFSET :offset';
 
         $stmt = $this->db->prepare($sql);
 
@@ -265,13 +287,31 @@ class WordDAO
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $id = $row['id'];
             $word = $row['word'];
-            $created_at = $row['created_at'];
+            $read1 = $row['read1'];
+            $read2 = $row['read2'];
+            $read3 = $row['read3'];
+            $read4 = $row['read4'];
+            $genre = $row['genre'];
+            $read1_points = $row['read1_points'];
+            $read2_points = $row['read2_points'];
+            $read3_points = $row['read3_points'];
+            $read4_points = $row['read4_points'];
+            $createdAt = $row['created_at'];
             $username = $row['name'];
 
             $words = new Word();
             $words->setId($id);
             $words->setWord($word);
-            $words->setCreatedAt($created_at);
+            $words->setRead1($read1);
+            $words->setRead2($read2);
+            $words->setRead3($read3);
+            $words->setRead4($read4);
+            $words->setGenre($genre);
+            $words->setReadPoints1($read1_points);
+            $words->setReadPoints2($read2_points);
+            $words->setReadPoints3($read3_points);
+            $words->setReadPoints4($read4_points);
+            $words->setCreatedAt($createdAt);
             $words->setUserName($username);
 
             $wordList[] = $words;
@@ -309,7 +349,7 @@ class WordDAO
     }
 
     public function findByWordKeyword($keyword) {
-        $sql = 'SELECT words.id, word, created_at, name FROM ( words INNER JOIN users) WHERE words.userid = users.id AND word LIKE :keyword ORDER BY created_at DESC';
+        $sql = 'SELECT words.id, word, created_at, name, read1, read2, read3, read4, genre, read1_points, read2_points, read3_points, read4_points  FROM ( words INNER JOIN users) WHERE words.userid = users.id AND word LIKE :keyword ORDER BY word ASC';
         $stmt = $this->db->prepare($sql);
 
         $stmt->bindValue(':keyword', '%'.$keyword.'%', PDO::PARAM_STR);
@@ -321,13 +361,31 @@ class WordDAO
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $id = $row['id'];
             $word = $row['word'];
-            $created_at = $row['created_at'];
+            $read1 = $row['read1'];
+            $read2 = $row['read2'];
+            $read3 = $row['read3'];
+            $read4 = $row['read4'];
+            $genre = $row['genre'];
+            $read1_points = $row['read1_points'];
+            $read2_points = $row['read2_points'];
+            $read3_points = $row['read3_points'];
+            $read4_points = $row['read4_points'];
+            $createdAt = $row['created_at'];
             $username = $row['name'];
 
             $words = new Word();
             $words->setId($id);
             $words->setWord($word);
-            $words->setCreatedAt($created_at);
+            $words->setRead1($read1);
+            $words->setRead2($read2);
+            $words->setRead3($read3);
+            $words->setRead4($read4);
+            $words->setGenre($genre);
+            $words->setReadPoints1($read1_points);
+            $words->setReadPoints2($read2_points);
+            $words->setReadPoints3($read3_points);
+            $words->setReadPoints4($read4_points);
+            $words->setCreatedAt($createdAt);
             $words->setUserName($username);
 
             $wordList[] = $words;
@@ -336,6 +394,53 @@ class WordDAO
         return $wordList;
     }
 
-    
+    public function wordGenre($genre,$limit,$offset) {
+        $sql = 'SELECT words.id, word, created_at, name, read1, read2, read3, read4, genre, read1_points, read2_points, read3_points, read4_points FROM ( words INNER JOIN users) WHERE words.userid = users.id AND genre = :genre ORDER BY word ASC LIMIT :limit OFFSET :offset';
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->bindValue(":genre", $genre, PDO::PARAM_STR);
+        $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
+        $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+
+        $result = $stmt->execute();
+
+        $wordList = [];
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $id = $row['id'];
+            $word = $row['word'];
+            $read1 = $row['read1'];
+            $read2 = $row['read2'];
+            $read3 = $row['read3'];
+            $read4 = $row['read4'];
+            $genre = $row['genre'];
+            $read1_points = $row['read1_points'];
+            $read2_points = $row['read2_points'];
+            $read3_points = $row['read3_points'];
+            $read4_points = $row['read4_points'];
+            $createdAt = $row['created_at'];
+            $username = $row['name'];
+
+            $words = new Word();
+            $words->setId($id);
+            $words->setWord($word);
+            $words->setRead1($read1);
+            $words->setRead2($read2);
+            $words->setRead3($read3);
+            $words->setRead4($read4);
+            $words->setGenre($genre);
+            $words->setReadPoints1($read1_points);
+            $words->setReadPoints2($read2_points);
+            $words->setReadPoints3($read3_points);
+            $words->setReadPoints4($read4_points);
+            $words->setCreatedAt($createdAt);
+            $words->setUserName($username);
+
+            $wordList[] = $words;
+        }
+
+        return $wordList;
+    }
 
 }

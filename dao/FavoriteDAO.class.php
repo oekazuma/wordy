@@ -46,7 +46,7 @@ class FavoriteDAO
 
     public function findFav($userId)
     {
-        $sql = 'SELECT * FROM favorite WHERE userId = :userId';
+        $sql = 'SELECT * FROM favorite WHERE userId = :userId ORDER BY id DESC';
         $stmt = $this->db->prepare($sql);
 
         $stmt->bindValue(':userId', $userId, PDO::PARAM_INT);

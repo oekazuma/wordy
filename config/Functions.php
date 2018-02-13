@@ -26,3 +26,18 @@ function cleanSession()
     $_SESSION['mail'] = $mail;
     $_SESSION['auth'] = $auth;
 }
+
+function wordCheck($data){
+    $ng_words = array('ero','gro','エロ','ng');
+ 
+    $flg = true;
+ 
+    foreach($ng_words as $word){
+        if(strpos($data, $word) !== false){
+            $flg = false;
+            break;
+        }
+    }
+ 
+    return $flg;
+}

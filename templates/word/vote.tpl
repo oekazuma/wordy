@@ -33,8 +33,12 @@
             <a class="navbar-brand page-scroll" href="/wordy/">Wordy</a>
         </div>
 
+        {if isset ($loginId)}
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
+              <li>
+                <a href="/wordy/word/showList.php">LIST</a>
+              </li>
               <li>
                 <a href="/wordy/word/goAdd.php">POST</a>
               </li>
@@ -46,6 +50,18 @@
               </li>
             </ul>
         </div>
+        {else}
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+              <li>
+                <a href="/wordy/login.php">Login</a>
+              </li>
+              <li>
+                <a href="/wordy/word/showList.php">LIST</a>
+              </li>
+            </ul>
+        </div>
+        {/if}
         <!-- /.navbar-collapse -->
     </div>
     <!-- /.container-fluid -->
@@ -58,12 +74,25 @@
     </div>
   {/if}
 
+  {if isset($ngMsg)}
+    <div class="alert alert-danger">
+      <p>{$ngMsg}</p>
+    </div>
+  {/if}
+
+  {if !isset ($loginId)}
+    <p>投票、コメントをするにはログインをしてください。</p>
+
+  {else}
+  
     <div class="well">
       {if empty($favorite)}
       <a href="/wordy/favorite/favorite.php?ster=on&word={$word}&user={$loginId}&id={$wordId}"><img src="/wordy/img/ster_off.png" width="30"></a>
       {else}
       <a href="/wordy/favorite/favorite.php?ster=off&word={$word}&user={$loginId}&id={$wordId}"><img src="/wordy/img/ster_on.png" width="30"></a>
       {/if}
+  }
+  {/if}
       <h1>{$wordList->getWord()}</h1>
 
     {if isset($vote)}
@@ -81,20 +110,26 @@
     <p>
           <span id="read1">{$wordList->getRead1()}</span>：
           <span id="num1">{$wordList->getReadPoints1()}</span>&nbsp;&nbsp;
+          {if isset ($loginId)}
           <button id="1" name="{$wordList->getRead1()}" class="btn btn-primary">投票する</button>
+          {/if}
       </p>
       <BR>
       <p>
           <span id="read2">{$wordList->getRead2()}</span>：
           <span id="num2">{$wordList->getReadPoints2()}</span>&nbsp;&nbsp;
+          {if isset ($loginId)}
           <button id="2" name="{$wordList->getRead2()}" class="btn btn-primary">投票する</button>
+          {/if}
       </p>
       <BR>
       {if !empty ({$wordList->getRead3()}) }
       <p>
           <span id="read3">{$wordList->getRead3()}</span>:
           <span id="num3">{$wordList->getReadPoints3()}</span>&nbsp;&nbsp;
+          {if isset ($loginId)}
           <button id="3" name="{$wordList->getRead3()}" class="btn btn-primary">投票する</button>
+          {/if}
       </p>
       <BR>
       {/if}
@@ -102,7 +137,9 @@
       <p>
           <span id="read4">{$wordList->getRead4()}</span>:
           <span id="num4">{$wordList->getReadPoints4()}</span>&nbsp;&nbsp;
+          {if isset ($loginId)}
           <button id="4" name="{$wordList->getRead4()}" class="btn btn-primary">投票する</button>
+          {/if}
       </p>
       {/if}
       {if $wordList->getReadPoints1() == 0 && $wordList->getReadPoints2() == 0}
@@ -117,6 +154,7 @@
       <a href="http://twitter.com/share?url=http://localhost:4567/wordy/word/showDetail.php?wordId={$wordId}%26word={$word}&text=あなたはどの読み方？投票して決めよう！&hashtags=Wordy" target="_blank"><img src="../img/twitter.png" width="40" height="30"></a>
     </div>
 
+    {if isset ($loginId)}
     <hr>
 
     <form action="/Wordy/word/showDetail.php" method="GET">
@@ -128,7 +166,7 @@
       <input type="hidden" name="word" value="{$word}">
       <input type="hidden" name="isAdd" value="true">
     </form>
-
+    {/if}
     <hr>
 
     <p>コメント数：<strong>{$commentDAO->count($wordId)}件</strong></p>
@@ -142,12 +180,14 @@
           <BR>
           {$comment->getCreatedAt()}
         </div>
-        {if $comment->getName() == $loginName}
-          <input type="submit" id="delete" value="削除" class="btn">
-          <input type="hidden" name="commentId" value="{$comment->getId()}">
-          <input type="hidden" name="wordId" value="{$wordId}">
-          <input type="hidden" name="word" value="{$word}">
-          <input type="hidden" name="isDelete" value="true">
+        {if isset ($loginId)}
+          {if $comment->getName() == $loginName}
+            <input type="submit" id="delete" value="削除" class="btn">
+            <input type="hidden" name="commentId" value="{$comment->getId()}">
+            <input type="hidden" name="wordId" value="{$wordId}">
+            <input type="hidden" name="word" value="{$word}">
+            <input type="hidden" name="isDelete" value="true">
+          {/if}
         {/if}
       </div>
     
