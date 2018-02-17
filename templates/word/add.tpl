@@ -75,7 +75,7 @@
                 <form action="/wordy/word/add.php" method="post">
                 <div class="form-group">
                   <label for="inputWord">読み方を決めたいワード&nbsp;<font color="red">必須</font></label>
-                  <input class="form-control"　type="text" id="word" name="word" placeholder="英語で入力" autocomplete="off" value="{$word->getWord()|default:''}">
+                  <input class="form-control"　type="text" id="word" name="word" placeholder="英字で入力" autocomplete="off" value="{$word->getWord()|default:''}">
                 </div>
                 <div class="form-group">
                   <label for="inputRead">読み方その1&nbsp;<font color="red">必須</font></label>

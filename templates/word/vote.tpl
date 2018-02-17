@@ -91,7 +91,6 @@
       {else}
       <a href="/wordy/favorite/favorite.php?ster=off&word={$word}&user={$loginId}&id={$wordId}"><img src="/wordy/img/ster_on.png" width="30"></a>
       {/if}
-  }
   {/if}
       <h1>{$wordList->getWord()}</h1>
 

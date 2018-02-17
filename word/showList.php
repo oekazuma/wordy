@@ -20,7 +20,10 @@ if (isset($_SESSION['flashMsg'])) {
     unset($_SESSION['flashMsg']);
 }
 
-cleanSession();
+if (isset($_SESSION['name'])) {
+    cleanSession();
+}
+
 
 $linePerPage = 10;
 $pageNo = 1;

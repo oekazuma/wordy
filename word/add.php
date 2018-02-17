@@ -55,7 +55,7 @@ else {
     $validationMsgs = [];
 
     if(!ctype_alpha($word)) {
-        $validationMsgs[] = "[読み方を決めたいワード]英語で入力してください。";
+        $validationMsgs[] = "[読み方を決めたいワード]英字で入力してください。";
     }
 
     if(preg_match('/[^ァ-ヶー]/u',$read_1)) {
